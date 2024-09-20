@@ -71,4 +71,8 @@ body {
     bottom: 100px;
     width: 180px;
   }
+
+  .bullet {
+    bottom: 40px;
+  }
 }
