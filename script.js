@@ -54,15 +54,7 @@ document.addEventListener('keyup', (e) => {
   }
 });
 
-// Controle por toque
-game.addEventListener('touchstart', (e) => {
-  const touchX = e.touches[0].clientX;
-  keys[touchX < gameWidth / 2 ? 'ArrowLeft' : 'ArrowRight'] = true;
 
-  if (shootingInterval === null) {
-    startShooting(); // Inicia o disparo ao tocar
-  }
-});
 
 game.addEventListener('touchend', () => {
   keys['ArrowLeft'] = false; // Para de mover para a esquerda
