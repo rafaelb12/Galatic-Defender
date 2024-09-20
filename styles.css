@@ -68,6 +68,7 @@ body {
 @media (max-width: 768px) {
 
   #player { 
-    bottom: 90px;
+    bottom: 100px;
+    width: 180px;
   }
 }
