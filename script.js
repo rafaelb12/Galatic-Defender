@@ -54,7 +54,15 @@ document.addEventListener('keyup', (e) => {
   }
 });
 
+// Controle por toque
+game.addEventListener('touchstart', (e) => {
+  const touchX = e.touches[0].clientX;
+  keys[touchX < gameWidth / 2 ? 'ArrowLeft' : 'ArrowRight'] = true;
 
+  if (shootingInterval === null) {
+    startShooting(); // Inicia o disparo ao tocar
+  }
+});
 
 game.addEventListener('touchend', () => {
   keys['ArrowLeft'] = false; // Para de mover para a esquerda
@@ -65,17 +73,19 @@ game.addEventListener('touchend', () => {
 // Nova função: Mover a nave conforme o dedo se move na tela
 game.addEventListener('touchmove', (e) => {
   const touch = e.touches[0];
-  const touchX = touch.clientX - game.getBoundingClientRect().left; // Coordenada X do toque relativo ao game
+  const touchX = touch.clientX - game.getBoundingClientRect().left;
+  if (shootingInterval === null) {
+    startShooting(); // Inicia o disparo ao tocar
+  } 
 
   // Centraliza o player onde o dedo está
   playerX = touchX - player.offsetWidth / 2;
 
   // Limita a nave para permanecer dentro da tela
-  if (playerX < 0) playerX = 0;
-  if (playerX > gameWidth - player.offsetWidth) playerX = gameWidth - player.offsetWidth;
-
+ 
   // Aplica a nova posição ao estilo da nave
   player.style.left = playerX + 'px';
+
 });
 
 // Função para mover o jogador suavemente com teclado
