@@ -25,7 +25,7 @@ body {
 #game {
   position: relative;
   width: 400px;
-  height: 600px;
+  height: 700px;
   background-color: #111;
   border: 2px solid white;
   overflow: hidden;
