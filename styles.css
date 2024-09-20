@@ -23,6 +23,7 @@ body {
 }
 
 #game {
+  top: 5px;
   position: relative;
   width: 400px;
   height: 700px;
