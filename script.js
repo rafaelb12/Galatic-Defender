@@ -33,7 +33,6 @@ let lastTime = 0;
 let soundEnabled = true;
 
 // Iniciar o som de fundo
-backgroundSound.play();
 backgroundSound.volume = 1;
 
 // Alternar som de fundo
@@ -260,6 +259,9 @@ function resetGame() {
 
 // Iniciar o jogo
 function startGame() {
+  // Iniciar o som de fundo
+  backgroundSound.play();
+  
   enemyCreationInterval = setInterval(createEnemy, 1000);
   lastTime = 0;
   requestAnimationFrame(gameLoop);
