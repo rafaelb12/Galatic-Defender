@@ -1,166 +1,383 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-body {
-  background-color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  overflow: hidden;
-}
+  body {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
 
-#background-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+  #background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
-#game {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  border: 2px solid white;
-  overflow: hidden;
-}
+  #game {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    border: 2px solid white;
+    overflow: hidden;
+  }
 
-#player {
-  position: absolute;
-  bottom: 10px;
-  left: 40%;
-  width: 160px;
-  height: auto;
-  transform: translateX(-38%);
-  z-index: 1;
-}
-
-.bullet {
-  position: absolute;
-  width: 5px;
-  height: 20px;
-  background-color: yellow;
-}
-
-.enemy {
-  position: absolute;
-  width: 60px;
-  height: 60px;
-}
-
-/* Estilo para o menu */
-#menu {
-  position: absolute;
-  top: 50px;
-  left: 20px;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 10px;
-  border-radius: 8px;
-  display: none; /* Escondido por padrão */
-}
-
-#menu ul {
-  list-style: none;
-  padding: 0;
-}
-
-#menu ul li {
-  margin: 10px 0;
-  cursor: pointer;
-}
-
-/* Botão de menu */
-#menu-button {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: #333;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-#menu-button:hover {
-  background-color: #555;
-  
-}
-
-#health-bar {
-  width: 100%;
-  background-color: red;
-  position: absolute;
-  top: 10px;
-  left: 0;
-}
-
-#health {
-  height: 10px;
-  width: 100%;
-  background-color: green;
-}
-
-#score {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: white;
-  z-index: 2;
-}
-
-#game-over {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.8);
-  padding: 40px;
-  border-radius: 8px;
-  z-index: 3
-  
-}
-
-#start-screen {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#start-screen h1 {
-  margin: 0;
-}
-
-#start-screen h3 {
-  margin: 10px 0;
-}
-
-
-
-@media (max-width: 768px) {
   #player {
-    bottom: 30px;
-    width: 180px;
+    position: absolute;
+    bottom: 10px;
+    left: 40%;
+    width: 160px;
+    height: auto;
+    transform: translateX(-38%);
+    z-index: 1;
   }
 
   .bullet {
-    bottom: 40px;
+    position: absolute;
+    width: 5px;
+    height: 20px;
+    background-color: yellow;
   }
+
+  .enemy {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-image: url('img/inimigo.png');
+    background-size: cover;
+    transform: rotate(180deg);
+  }
+
+  .about-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .btn{
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  width: 150px;
+  height: 27px;
+  border-radius: 10px;
+  border-color:whitesmoke ;
+  margin: 5px;
+  }
+  /* Estilo para o menu */
+  #menu {
+    position: absolute;
+    top: 50px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    display: none; /* Escondido por padrão */
+  }
+
+  #menu ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  #menu ul li {
+    margin: 10px 0;
+    cursor: pointer;
+  }
+
+  /* Botão de menu */
+  #menu-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  #menu-button:hover {
+    background-color: #555;
+    
+  }
+
+  #health-bar {
+    width: 100%;
+    background-color: red;
+    position: absolute;
+    top: 10px;
+    left: 0;
+  }
+/* From Uiverse.io by Praashoo7 */ 
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
 }
+
+.up {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+}
+
+.down {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+}
+
+.card1 {
+  width: 90px;
+  height: 90px;
+  outline: none;
+  border: none;
+  background: white;
+  border-radius: 90px 5px 5px 5px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: .2s ease-in-out;
+}
+
+.instagram {
+  margin-top: 1.5em;
+  margin-left: 1.2em;
+  fill: #cc39a4;
+}
+
+.card2 {
+  width: 90px;
+  height: 90px;
+  outline: none;
+  border: none;
+  background: white;
+  border-radius: 5px 90px 5px 5px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: .2s ease-in-out;
+}
+
+.twitter {
+  margin-top: 1.5em;
+  margin-left: -.9em;
+  fill: #03A9F4;
+}
+
+.card3 {
+  width: 90px;
+  height: 90px;
+  outline: none;
+  border: none;
+  background: white;
+  border-radius: 5px 5px 5px 90px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: .2s ease-in-out;
+}
+
+.github {
+  margin-top: -.6em;
+  margin-left: 1.2em;
+}
+
+.card4 {
+  width: 90px;
+  height: 90px;
+  outline: none;
+  border: none;
+  background: white;
+  border-radius: 5px 5px 90px 5px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: .2s ease-in-out;
+}
+
+.discord {
+  margin-top: -.9em;
+  margin-left: -1.2em;
+  fill: #8c9eff;
+}
+
+.card1:hover {
+  cursor: pointer;
+  scale: 1.1;
+  background-color: #cc39a4;
+}
+
+.card1:hover .instagram {
+  fill: white;
+}
+
+.card2:hover {
+  cursor: pointer;
+  scale: 1.1;
+  background-color: #03A9F4;
+}
+
+.card2:hover .twitter {
+  fill: white;
+}
+
+.card3:hover {
+  cursor: pointer;
+  scale: 1.1;
+  background-color: black;
+}
+
+.card3:hover .github {
+  fill: white;
+}
+
+.card4:hover {
+  cursor: pointer;
+  scale: 1.1;
+  background-color: #8c9eff;
+}
+
+.card4:hover .discord {
+  fill: white;
+}
+  #health {
+    height: 10px;
+    width: 100%;
+    background-color: green;
+  }
+
+  #score {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+    z-index: 2;
+  }
+
+  #game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 40px;
+    border-radius: 8px;
+    z-index: 3
+    
+  }
+
+  #start-screen {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #start-screen h1 {
+    margin: 0;
+  }
+
+  #start-screen h3 {
+    margin: 10px 0;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50vw;
+    height: auto;
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo escuro transparente */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10; /* Certifique-se de que esteja acima do jogo */
+  }
+
+  #settings {
+    display: flex;
+    gap: 10px;
+  }
+
+
+
+  .theme-card {
+    margin: 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .theme-card video {
+    width: 200px; /* Ajuste o tamanho do vídeo conforme necessário */
+    height: 120px; /* Ajuste o tamanho do vídeo conforme necessário */
+    object-fit: cover; /* Mantém a proporção do vídeo */
+    border-radius: 10px; /* Adiciona borda arredondada */
+  }
+
+  
+  .btn:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  select{
+    background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  width: 150px;
+  height: 27px;
+  border-radius: 10px;
+  border-color:whitesmoke ;
+  margin: 5px;
+  padding-left: 54px;
+  }
+
+  option{
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 150px;
+  height: 27px;
+  border-radius: 10px;
+  border-color:whitesmoke ;
+  margin: 5px;
+  padding-left: 54px;
+  color: black;
+  }
+
+  select:hover{
+    background-color: rgba(242, 236, 236, 0.2);
+  }
+
+
+
+  @media (max-width: 768px) {
+    #player {
+      bottom: 30px;
+      width: 180px;
+    }
+
+    .bullet {
+      bottom: 40px;
+    }
+  }
