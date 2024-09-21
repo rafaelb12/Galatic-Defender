@@ -3,7 +3,7 @@ const player = document.getElementById('player');
 const backgroundSound = document.getElementById('background-sound');
 const shootSound = document.getElementById('shoot-sound');
 const toggleSoundButton = document.getElementById('toggle-sound');
-const menuButton = document.getElementById('menu-button');
+const menuButton = document.getElementById('toggle-settings');
 const menu = document.getElementById('menu');
 const backgroundVolumeControl = document.getElementById('background-volume');
 const shootVolumeControl = document.getElementById('shoot-volume');
@@ -12,6 +12,13 @@ const scoreValue = document.getElementById('score-value');
 const healthBar = document.getElementById('health');
 const gameOverScreen = document.getElementById('game-over');
 const restartGameButton = document.getElementById('restart-game');
+const startScreen = document.getElementById('start-screen');
+const levelSelect = document.getElementById('level-select');
+const startButton = document.getElementById('start-button');
+const themeButton = document.getElementById('theme-button');
+const themeScreen = document.getElementById('theme-screen');
+const selectThemeButton = document.getElementById('select-theme-button');
+const colisaoSound = document.getElementById('collision-sound');
 
 const gameWidth = game.offsetWidth;
 const gameHeight = game.offsetHeight;
@@ -19,7 +26,6 @@ let bullets = [];
 let enemies = [];
 let score = 0;
 let health = 100;
-
 let playerX = gameWidth / 2 - 20;
 let playerY = gameHeight - 50;
 let playerSpeed = 0;
@@ -34,6 +40,7 @@ let soundEnabled = true;
 
 // Iniciar o som de fundo
 backgroundSound.volume = 1;
+backgroundSound.play();
 
 // Alternar som de fundo
 toggleSoundButton.addEventListener('click', () => {
@@ -85,29 +92,6 @@ document.addEventListener('keyup', (e) => {
   }
 });
 
-// Controle por toque
-game.addEventListener('touchstart', (e) => {
-  const touchX = e.touches[0].clientX;
-  keys[touchX < gameWidth / 2 ? 'ArrowLeft' : 'ArrowRight'] = true;
-  if (shootingInterval === null) {
-    startShooting();
-  }
-});
-
-// Mover a nave conforme o toque
-game.addEventListener('touchmove', (e) => {
-  const touch = e.touches[0];
-  const touchX = touch.clientX - game.getBoundingClientRect().left;
-  playerX = Math.min(Math.max(touchX - player.offsetWidth / 2, 0), gameWidth - 40);
-  player.style.left = playerX + 'px';
-});
-
-game.addEventListener('touchend', () => {
-  keys['ArrowLeft'] = false;
-  keys['ArrowRight'] = false;
-  stopShooting();
-});
-
 // Mover o jogador
 function movePlayer() {
   if (keys['ArrowLeft']) {
@@ -153,131 +137,186 @@ function stopShooting() {
 
 // Mover balas
 function moveBullets() {
-  bullets.forEach((bullet, index) => {
-    let bulletTop = parseInt(bullet.style.top);
-    bullet.style.top = bulletTop - 10 + 'px';
-    if (bulletTop < 0) {
+  bullets.forEach((bullet, bulletIndex) => {
+    bullet.style.top = (parseInt(bullet.style.top) - 5) + 'px';
+
+    if (parseInt(bullet.style.top) < 0) {
       bullet.remove();
-      bullets.splice(index, 1);
+      bullets.splice(bulletIndex, 1);
+    } else {
+      // Verificar colisão da bala com os inimigos
+      enemies.forEach((enemy, enemyIndex) => {
+        if (checkCollision(bullet, enemy)) {
+          // Se houver colisão, remover bala e inimigo
+          bullet.remove();
+          enemy.remove();
+          bullets.splice(bulletIndex, 1);
+          enemies.splice(enemyIndex, 1);
+
+          // Tocar som de colisão
+          colisaoSound.currentTime = 0; // Reiniciar o som
+          colisaoSound.play();
+
+          // Atualizar a pontuação
+          updateScore();
+        }
+      });
     }
   });
 }
 
 // Criar inimigos
 function createEnemy() {
-  if (enemies.length < 10) {
-    const enemy = document.createElement('img');
-    enemy.src = 'img/inimigo.png';
-    enemy.alt = 'Inimigo';
-    enemy.className = 'enemy';
-    enemy.style.position = 'absolute';
-    enemy.style.left = Math.random() * (gameWidth - 40) + 'px';
-    enemy.style.top = '0px';
-    enemy.style.width = '72px';
-    game.appendChild(enemy);
-    enemies.push(enemy);
-  }
+  const enemy = document.createElement('div');
+  enemy.classList.add('enemy');
+  enemy.style.left = Math.random() * (gameWidth - 40) + 'px';
+  enemy.style.top = '0px';
+  game.appendChild(enemy);
+  enemies.push(enemy);
 }
 
 // Mover inimigos
 function moveEnemies() {
   enemies.forEach((enemy, index) => {
-    let enemyTop = parseInt(enemy.style.top);
-    enemy.style.top = enemyTop + 5 + 'px';
+    enemy.style.top = (parseInt(enemy.style.top) + 2) + 'px';
 
-    if (enemyTop > gameHeight) {
+    // Verificar colisão com o jogador
+    if (checkCollision(enemy, player)) {
+      health -= 10;
+      healthBar.style.width = health + '%';
       enemy.remove();
       enemies.splice(index, 1);
-      decreaseHealth();
+      if (health <= 0) {
+        endGame();
+      }
     }
 
-    bullets.forEach((bullet, bulletIndex) => {
-      if (isColliding(bullet, enemy)) {
-        score++;
-        scoreValue.textContent = score;
-        bullet.remove();
-        bullets.splice(bulletIndex, 1);
-        enemy.remove();
-        enemies.splice(index, 1);
-      }
-    });
-
-    if (isColliding(player, enemy)) {
-      decreaseHealth();
+    // Verificar se o inimigo saiu da tela
+    if (parseInt(enemy.style.top) > gameHeight) {
       enemy.remove();
       enemies.splice(index, 1);
     }
   });
 }
 
-// Verificar colisão
-function isColliding(a, b) {
-  const rectA = a.getBoundingClientRect();
-  const rectB = b.getBoundingClientRect();
-  return !(rectA.top > rectB.bottom || rectA.bottom < rectB.top || rectA.right < rectB.left || rectA.left > rectB.right);
+// Verificar colisão entre dois elementos
+function checkCollision(el1, el2) {
+  const rect1 = el1.getBoundingClientRect();
+  const rect2 = el2.getBoundingClientRect();
+
+  return !(
+    rect1.top > rect2.bottom ||
+    rect1.bottom < rect2.top ||
+    rect1.left > rect2.right ||
+    rect1.right < rect2.left
+  );
 }
 
-// Diminuir saúde
-function decreaseHealth() {
-  health -= 10;
-  healthBar.style.width = health + '%';
-  if (health <= 0) {
-    endGame();
-  }
+// Atualizar a pontuação
+function updateScore() {
+  score += 1;
+  scoreValue.textContent = score;
 }
 
-// Finalizar o jogo
+// Encerrar o jogo
 function endGame() {
   clearInterval(enemyCreationInterval);
+  clearInterval(shootingInterval);
   gameOverScreen.style.display = 'block';
 }
 
-// Resetar o jogo
+// Reiniciar o jogo
 function resetGame() {
-  // Redefine variáveis
   score = 0;
   health = 100;
-  scoreValue.textContent = score;
-  healthBar.style.width = health + '%';
-  
-  // Limpa balas e inimigos
-  bullets.forEach(bullet => bullet.remove());
-  enemies.forEach(enemy => enemy.remove());
   bullets = [];
   enemies = [];
-  
-  // Oculta a tela de Game Over
+  scoreValue.textContent = score;
+  healthBar.style.width = health + '%';
   gameOverScreen.style.display = 'none';
-  
-  // Reinicia a criação de inimigos
-  enemyCreationInterval = setInterval(createEnemy, 1000);
-  
-  // Reinicia o loop do jogo
-  lastTime = 0;
-  requestAnimationFrame(gameLoop);
+  document.querySelectorAll('.enemy').forEach(enemy => enemy.remove());
+  document.querySelectorAll('.bullet').forEach(bullet => bullet.remove());
+  startGame();
 }
 
 // Iniciar o jogo
 function startGame() {
-  // Iniciar o som de fundo
-  backgroundSound.play();
-  
-  enemyCreationInterval = setInterval(createEnemy, 1000);
-  lastTime = 0;
+  startScreen.style.display = 'none';
+  gameOverScreen.style.display = 'none'; // Esconder a tela de game over se estiver visível
+  health = 100; // Resetar a saúde
+  score = 0; // Resetar a pontuação
+  bullets = []; // Limpar balas
+  enemies = []; // Limpar inimigos
+  scoreValue.textContent = score; // Atualizar pontuação no display
+  healthBar.style.width = health + '%'; // Resetar barra de saúde
+
+  // Recriar a nave na posição inicial
+  playerX = gameWidth / 2 - 20; // Posição inicial da nave
+  player.style.left = playerX + 'px'; // Definir a posição da nave
+
+  // Iniciar o movimento da nave e a criação de inimigos
+  enemyCreationInterval = setInterval(() => {
+    createEnemy();
+    updateScore();
+  }, 2000);
+
+  // Iniciar o loop de animação
   requestAnimationFrame(gameLoop);
 }
 
-// Loop do jogo usando requestAnimationFrame
-function gameLoop(timestamp) {
-  const deltaTime = timestamp - lastTime;
-  lastTime = timestamp;
-
+// Loop principal do jogo
+function gameLoop() {
   movePlayer();
   moveBullets();
   moveEnemies();
-
+  
+  // Continuar o loop
   requestAnimationFrame(gameLoop);
 }
 
-// Iniciar o jogo
-startGame();
+// Iniciar ao clicar no botão de iniciar
+startButton.addEventListener('click', startGame);
+
+// Tela de Seleção de Tema
+themeButton.addEventListener('click', () => {
+  startScreen.style.display = 'none';
+  themeScreen.style.display = 'flex';
+});
+
+// Selecionar tema e voltar para a tela inicial
+selectThemeButton.addEventListener('click', () => {
+  const selectedTheme = document.querySelector('.theme-card.selected');
+  if (selectedTheme) {
+    const videoSrc = selectedTheme.getAttribute('data-video');
+    const backgroundVideo = document.getElementById('background-video');
+    backgroundVideo.src = videoSrc; // Atualiza o vídeo de fundo
+    backgroundVideo.load(); // Carrega o novo vídeo
+  }
+  
+  themeScreen.style.display = 'none'; // Oculta a tela de temas
+  startScreen.style.display = 'flex'; // Exibe a tela inicial
+});
+
+// Adiciona evento de clique para selecionar o tema
+document.querySelectorAll('.theme-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+  });
+});// Espera que o DOM esteja totalmente carregado
+document.addEventListener('DOMContentLoaded', () => {
+    const aboutButton = document.getElementById('about-button'); // Botão "Sobre"
+    const aboutScreen = document.getElementById('about-screen'); // Tela "Sobre"
+
+    // Ao clicar no botão "Sobre"
+    aboutButton.addEventListener('click', () => {
+        aboutScreen.style.display = 'flex'; // Mostrar a tela "Sobre"
+    });
+
+    // Fechar a tela "Sobre" ao clicar em qualquer lugar nela
+    aboutScreen.addEventListener('click', (event) => {
+        if (event.target === aboutScreen) {
+            aboutScreen.style.display = 'none'; // Esconder a tela "Sobre"
+        }
+    });
+});
