@@ -19,14 +19,13 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; 
+  object-fit: cover;
 }
 
 #game {
   position: relative;
   width: 100vw;
-  height: 100vh;;
-  background-color: #111;
+  height: 100vh;
   border: 2px solid white;
   overflow: hidden;
 }
@@ -34,12 +33,11 @@ body {
 #player {
   position: absolute;
   bottom: 10px;
-  left: 40%; 
-  width: 160px; 
-  height: auto; 
-  transform: translateX(-38%); 
+  left: 40%;
+  width: 160px;
+  height: auto;
+  transform: translateX(-38%);
   z-index: 1;
-
 }
 
 .bullet {
@@ -53,22 +51,112 @@ body {
   position: absolute;
   width: 60px;
   height: 60px;
+}
+
+/* Estilo para o menu */
+#menu {
+  position: absolute;
+  top: 50px;
+  left: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  display: none; /* Escondido por padrão */
+}
+
+#menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+#menu ul li {
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+/* Botão de menu */
+#menu-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#menu-button:hover {
+  background-color: #555;
   
 }
 
-#toggle-sound {
+#health-bar {
+  width: 100%;
+  background-color: red;
+  position: absolute;
+  top: 10px;
+  left: 0;
+}
+
+#health {
+  height: 10px;
+  width: 100%;
+  background-color: green;
+}
+
+#score {
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 40px;
-  cursor: pointer;
-  z-index: 1; 
+  color: white;
+  z-index: 2;
 }
 
-@media (max-width: 768px) {
+#game-over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 40px;
+  border-radius: 8px;
+  z-index: 3
+  
+}
 
-  #player { 
-    bottom: 100px;
+#start-screen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#start-screen h1 {
+  margin: 0;
+}
+
+#start-screen h3 {
+  margin: 10px 0;
+}
+
+
+
+@media (max-width: 768px) {
+  #player {
+    bottom: 30px;
     width: 180px;
   }
 
