@@ -13,10 +13,31 @@
     </video>
 
     <img id="player" src="img/nave.png" alt="Nave Espacial" width="70px">
-    <img id="enemy" src="img/inimigo.png" alt="Nave Espacial" width="70px">
 
     <img id="toggle-sound" src="img/on.png" alt="Toggle Sound">
     
+    <!-- Botão para abrir o menu -->
+    <button id="menu-button">Menu</button>
+
+    <!-- Menu de opções -->
+    <div id="menu" style="display: none;">
+      <ul>
+        <li><label for="background-volume">Volume Som de Fundo:</label></li>
+        <li><input type="range" id="background-volume" min="0" max="100" step="1"></li>
+        <li><label for="shoot-volume">Volume Tiro:</label></li>
+        <li><input type="range" id="shoot-volume" min="0" max="100" step="1"></li>
+        <li><button id="restart-button">Reiniciar Jogo</button></li>
+      </ul>
+    </div>
+
+    <div id="score">Pontuação: <span id="score-value">0</span></div>
+    <div id="health-bar">
+        <div id="health"></div>
+    </div>
+    <div id="game-over" style="display: none;">
+        <h1>Fim de Jogo</h1>
+        <button id="restart-game">Reiniciar</button>
+    </div>
   </div>
   
   <audio id="background-sound" src="sounds/fundo.mp3" loop></audio>
