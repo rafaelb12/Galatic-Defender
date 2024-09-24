@@ -78,6 +78,22 @@
   border-color:whitesmoke ;
   margin: 5px;
   }
+
+  .btnm{
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  width: 90px;
+  height: 27px;
+  border-radius: 10px;
+  border-color:whitesmoke ;
+  margin: 5px;
+  position: fixed;
+  top: 19px;
+  left: 10px;
+  cursor: pointer;
+
+  }
+  /* Estilo para o menu */
   #menu {
     position: absolute;
     top: 50px;
@@ -86,7 +102,7 @@
     color: white;
     padding: 10px;
     border-radius: 8px;
-    display: none; 
+    display: none; /* Escondido por padrão */
   }
 
   #menu ul {
@@ -101,13 +117,11 @@
 
   /* Botão de menu */
   #menu-button {
-    position: absolute;
-    top: 10px;
+    position:fixed;
+    top: 19px;
     left: 10px;
-    background-color: #333;
+    
     color: white;
-    padding: 10px;
-    border: none;
     border-radius: 8px;
     cursor: pointer;
   }
@@ -124,6 +138,7 @@
     top: 10px;
     left: 0;
   }
+/* From Uiverse.io by Praashoo7 */ 
 .main {
   display: flex;
   flex-direction: column;
@@ -252,11 +267,18 @@
     height: 10px;
     width: 100%;
     background-color: green;
+    transition: width 0.7s ease; /* Transição suave de 0.5 segundos */
+    position: relative;
   }
+  .slide-out {
+    transform: translateX(-100%); /* Desloca a barra para a esquerda */
+    opacity: 0; /* Diminui a opacidade para efeito de desaparecimento */
+    transition: transform 0.5s ease, opacity 0.5s ease; /* Transições para o deslizamento e opacidade */
+}
 
   #score {
     position: absolute;
-    top: 10px;
+    top: 19px;
     right: 10px;
     color: white;
     z-index: 2;
@@ -292,8 +314,8 @@
   }
 
   #start-screen h1 {
-    align-items: center;
-    margin-left: 53px;
+  align-items: center;
+  margin-left: 53px;
   }
 
   #start-screen h3 {
@@ -306,13 +328,13 @@
     left: 0;
     width: 50vw;
     height: auto;
-    background-color: rgba(0, 0, 0, 0.7); 
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo escuro transparente */
     color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 10;
+    z-index: 10; /* Certifique-se de que esteja acima do jogo */
   }
 
   #settings {
@@ -331,16 +353,27 @@
   }
 
   .theme-card video {
-    width: 200px; 
-    height: 120px; 
-    object-fit: cover;
-    border-radius: 10px; 
+    width: 200px; /* Ajuste o tamanho do vídeo conforme necessário */
+    height: 120px; /* Ajuste o tamanho do vídeo conforme necessário */
+    object-fit: cover; /* Mantém a proporção do vídeo */
+    border-radius: 10px; /* Adiciona borda arredondada */
+  }
+
+  .theme-card:hover{
+    border-color: azure;
+    border-radius: 8px;
+    border: 10px;
+
   }
 
   
   .btn:hover{
     background-color: rgba(255, 255, 255, 0.2);
   }
+  .btnm:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
 
   select{
     background-color: rgba(0, 0, 0, 0.2);
