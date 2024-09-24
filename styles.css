@@ -33,7 +33,7 @@
   #player {
     position: absolute;
     bottom: 10px;
-    left: 40%;
+    left: 47%;
     width: 160px;
     height: auto;
     transform: translateX(-38%);
@@ -78,7 +78,6 @@
   border-color:whitesmoke ;
   margin: 5px;
   }
-  /* Estilo para o menu */
   #menu {
     position: absolute;
     top: 50px;
@@ -293,7 +292,8 @@
   }
 
   #start-screen h1 {
-    margin: 0;
+    align-items: center;
+    margin-left: 53px;
   }
 
   #start-screen h3 {
