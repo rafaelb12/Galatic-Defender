@@ -314,8 +314,8 @@
   }
 
   #start-screen h1 {
-  align-items: center;
-  margin-left: 53px;
+    margin: 0;
+
   }
 
   #start-screen h3 {
