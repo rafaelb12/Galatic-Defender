@@ -155,7 +155,7 @@ function moveEnemies() {
     enemy.style.top = (parseInt(enemy.style.top) + 2) + 'px';
     if (checkCollision(enemy, player)) {
       health -= 10;
-      healthBar.style.width = health + '%';
+      updateHealth();
       enemy.remove();
       enemies.splice(index, 1);
       if (health <= 0) {
@@ -163,6 +163,8 @@ function moveEnemies() {
       }
     }
     if (parseInt(enemy.style.top) > gameHeight) {
+      health -= 5; // Se o inimigo passar sem ser atingido
+      updateHealth(); // Atualiza a saúde
       enemy.remove();
       enemies.splice(index, 1);
     }
@@ -183,6 +185,10 @@ function checkCollision(el1, el2) {
 function updateScore() {
   score += 1;
   scoreValue.textContent = score;
+}
+
+function updateHealth() {
+  healthBar.style.width = health + '%';
 }
 
 function endGame() {
@@ -215,10 +221,7 @@ function startGame() {
   healthBar.style.width = health + '%';
   playerX = gameWidth / 2 - 20;
   player.style.left = playerX + 'px';
-  enemyCreationInterval = setInterval(() => {
-    createEnemy();
-    updateScore();
-  }, 2000);
+  enemyCreationInterval = setInterval(createEnemy, 2000);
   requestAnimationFrame(gameLoop);
 }
 
@@ -262,54 +265,23 @@ document.addEventListener('DOMContentLoaded', () => {
   aboutButton.addEventListener('click', () => {
     aboutScreen.style.display = 'flex';
   });
-
-  aboutScreen.addEventListener('click', (event) => {
-    if (event.target === aboutScreen) {
-      aboutScreen.style.display = 'none';
-    }
-  });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  const game = document.getElementById('game');
-  const player = document.getElementById('player');
-  const gameWidth = game.offsetWidth;
-
-  let isTouching = false;
-  let initialTouchX = 0;
-  let playerInitialX = 0;
-
-  function startTouchShooting() {
-    if (shootingInterval === null) {
-      startShooting();
-    }
+game.addEventListener('touchstart', (e) => {
+  const touch = e.touches[0];
+  playerX = touch.clientX - player.offsetWidth / 2;
+  player.style.left = playerX + 'px';
+  if (shootingInterval === null) {
+    startShooting();
   }
-
-  function stopTouchShooting() {
-    stopShooting();
-  }
-
-  game.addEventListener('touchstart', (event) => {
-    const touch = event.touches[0];
-    initialTouchX = touch.clientX;
-    playerInitialX = playerX;
-    isTouching = true;
-    startTouchShooting();
-  });
-
-  game.addEventListener('touchmove', (event) => {
-    if (isTouching) {
-      const touch = event.touches[0];
-      const deltaX = touch.clientX - initialTouchX;
-      playerX = playerInitialX + deltaX;
-      playerX = Math.min(Math.max(playerX, 0), gameWidth - 40);
-      player.style.left = playerX + 'px';
-    }
-  });
-
-  game.addEventListener('touchend', () => {
-    isTouching = false;
-    stopTouchShooting();
-  });
 });
 
+game.addEventListener('touchmove', (e) => {
+  const touch = e.touches[0];
+  playerX = touch.clientX - player.offsetWidth / 2;
+  player.style.left = playerX + 'px';
+});
+
+game.addEventListener('touchend', () => {
+  stopShooting();
+});
